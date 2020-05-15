@@ -1,0 +1,184 @@
+<mvc:View 
+    controllerName="sap.ui.veh_arribovapores.controller.Home" 
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:u="sap.ui.unified"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:c="sap.ui.core"
+    xmlns:m="sap.ui.table"
+    xmlns="sap.m"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:smartVariantManagement="sap.ui.comp.smartvariants"
+    xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <Page title="Arribo de Vapores" 
+        showHeader="true"
+        enableScrolling="true"
+        class="sapUiContentPadding"
+        showNavButton="true" navButtonPress="onNavBack">
+        <l:VerticalLayout
+            class="sapUiContentPadding"
+            width="100%">
+			<f:Form id="SimpleFormDisplay33333" editable="true" title="Datos de Ingreso">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="1"
+						emptySpanL="1"
+						emptySpanM="1"
+						emptySpanS="1"
+						columnsXL="2"
+						columnsL="2"
+						columnsM="2"
+						singleContainerFullSize="false" />
+				</f:layout>
+				<f:formContainers>
+				<f:FormContainer title="">
+					<f:formElements>
+						<f:FormElement label="Fecha Inicial">
+						    <f:fields>
+						        <DatePicker
+						            id="dateInicio"
+						            displayFormat="dd.MM.yyyy"
+						            valueFormat="yyyy-MM-dd"
+						            placeholder="dd.mm.yyyy"
+						            change="handleChange"/>
+						    </f:fields>
+						</f:FormElement>
+						<f:FormElement label="Fecha Final">
+						    <f:fields>
+						        <DatePicker
+						            id="dateFin"
+						            displayFormat="dd.MM.yyyy"
+						            valueFormat="yyyy-MM-dd"
+						            placeholder="dd.mm.yyyy"
+						            change="handleChange"/>
+						    </f:fields>
+						</f:FormElement>
+					</f:formElements>
+					</f:FormContainer>
+						<f:FormContainer title="">
+							<f:formElements>
+							<f:FormElement label="Marca">
+							    <f:fields>
+							        <Select id="Marca">
+							        	<c:Item key="" text="TODOS" />
+							            <c:Item key="00001" text="TOYOTA" />
+							            <c:Item key="00002" text="HINO" />
+							            <c:Item key="00003" text="LEXUS" />
+							        </Select>
+							    </f:fields>
+							</f:FormElement>
+							<f:FormElement label="">
+							    <f:fields>
+							        <Button 
+								        type="Accept"
+								        press="onSearch"
+								        text="Buscar"
+								        icon="sap-icon://search"/>
+							    </f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			</l:VerticalLayout>
+        <!--Inicio de la variante-->
+        <HBox class="exPageVariantPadding">                                                
+            <smartVariantManagement:SmartVariantManagement
+                id="pageVariantId"
+                persistencyKey="PageVariantPKey"/> 
+        </HBox>
+        <!-- Smarttable -->
+ 
+        <smartTable:SmartTable 
+            id="STArriboVapores"
+            smartFilterId="smartFilterBar"
+            smartVariant="pageVariantId"
+            tableType="ResponsiveTable"
+            entitySet="RPT_ARRIBO_VAPORESSet"
+            useTablePersonalisation="true"
+            header="Arribo de vapores"
+            dataReceived="onLoad"
+            beforeRebindTable="onBeforeTBL"                    
+            initiallyVisibleFields="Nnave,Flleg,Statu,Marca"                               
+            useExportToExcel="true"
+                               
+            beforeExport="onBeforeExport"
+            
+            persistencyKey="SmartTableAnalytical_Explored"
+                               
+            enableAutoBinding="false"
+            showRowCount="true"
+            customData:useSmartField="false"
+                  
+            
+            demandPopin="true"
+            ignoreFromPersonalisation="Corre,Vbeln" 
+            requestAtLeastFields ="Corre,Vbeln">
+            
+            <!-- Smarttable persistencyKey="SmartTablePKey" -->
+        	<smartTable:customToolbar>
+	        	<OverflowToolbar design="Transparent"> 
+		           <ToolbarSpacer/> 
+		           <Label class="sapUiTinyMarginTop sapUiTinyMarginEnd" text="Cantidad a mostrar:" />
+			        <Select id="sShow" selectKey="3" change="onShow">
+			            <c:ListItem key="5" text="5"/>
+			            <c:ListItem key="10" text="10"/>
+			            <c:ListItem key="15" text="15"/>
+			            <c:ListItem key="20" text="20"/>
+			            <c:ListItem key="50" text="50"/>
+			        </Select>
+			        <Button id="btnSiguiente" icon="sap-icon://navigation-right-arrow"  iconFirst="false" type="Transparent"          text="Siguiente"  press="goNext"/>
+			        <Button 
+			        id="btnAnterior" icon="sap-icon://navigation-left-arrow"  type="Transparent"  text="Anterior"  press="goPrevious"/>
+	            </OverflowToolbar>
+            </smartTable:customToolbar>
+            <Table>
+                <columns>
+                    <Column>
+                        <customData> 
+                            <c:CustomData key="p13nData"
+                            value='\{"columnKey": "Nnave","leadingProperty":"Nnave","sortProperty":"Nnave", "filterProperty":"Nnave"}' />
+                        </customData>
+                        <Label text="Nave" />
+                    </Column>
+                    <Column>
+                        <customData> 
+                            <c:CustomData key="p13nData"
+                            value='\{"columnKey": "Flleg","leadingProperty":"Flleg","sortProperty":"Flleg", "filterProperty":"Flleg","type": "date"}' />
+                        </customData>
+                        <Label text="Fe. est. de arribo" />
+                    </Column>
+                    <Column>
+                        <customData> 
+                            <c:CustomData key="p13nData"
+                            value='\{"columnKey": "Statu","leadingProperty":"Statu","sortProperty":"Statu", "filterProperty":"Statu"}' />
+                        </customData>
+                        <Label text="Estado" />
+                    </Column>
+                    <Column>
+                        <customData> 
+                            <c:CustomData key="p13nData"
+                            value='\{"columnKey": "Marca","leadingProperty":"Marca","sortProperty":"Marca", "filterProperty":"Marca"}' />
+                        </customData>
+                        <Label text="Modelo" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                           <Text text="{Nnave}" />
+                           <Text text="{path: 'Flleg', formatter: '.formatter.getfecha'}" />
+                           <Text text="{Statu}" />
+                           <Text text="{Marca}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </smartTable:SmartTable>
+    </Page>
+</mvc:View>
